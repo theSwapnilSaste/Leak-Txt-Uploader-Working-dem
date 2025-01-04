@@ -31,10 +31,7 @@
             "value": "",
             "required": true
         },
-        "MONGO_URI": {
-            "description": "Enter your MongoDB connection string",
-            "value": "",
-            "required": true
+        
         }
     },
     "addons": [],
