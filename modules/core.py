@@ -9,7 +9,10 @@ import aiofiles
 import asyncio
 import logging
 import requests
-import tgcrypto
+try:
+    import tgcrypto
+except ImportError:
+    print("TgCrypto not available, using slower encryption methods")
 import subprocess
 import concurrent.futures
 from subprocess import getstatusoutput
@@ -19,7 +22,11 @@ from utils import progress_bar
 import subprocess
 from math import ceil
 from PIL import Image
-from pytube import Playlist  #Youtube Playlist Extractor
+try:
+    from pytube import Playlist  #Youtube Playlist Extractor
+except ImportError:
+    print("pytube not available, YouTube playlist features disabled")
+    Playlist = None
 from yt_dlp import YoutubeDL
 
 

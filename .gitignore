@@ -1,0 +1,36 @@
+# Ignore large video files
+*.mp4
+*.mp4.part
+*.mkv
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+
+# Ignore download files
+*.ytdl
+*.part-Frag*
+
+# Ignore log files
+logs.txt
+
+# Ignore session files (sensitive)
+*.session
+*.session-journal
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore large images
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Ignore temporary files
+*.tmp
+*.temp

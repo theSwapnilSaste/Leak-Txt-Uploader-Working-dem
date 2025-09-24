@@ -9,7 +9,7 @@ import subprocess
 import logging
 from utils import progress_bar
 import core as helper
-from config import BOT_TOKEN, API_ID, API_HASH, MONGO_URI, BOT_NAME
+from config import BOT_TOKEN, API_ID, API_HASH, MONGO_URI, BOT_NAME, OWNER_ID, LOG_CHANNEL_ID
 import aiohttp
 from aiohttp import ClientSession
 from pyromod import listen
@@ -27,23 +27,26 @@ from db import get_collection, save_name, load_name, save_log_channel_id, load_l
 from db import save_bot_running_time, load_bot_running_time, reset_bot_running_time, save_max_running_time, load_max_running_time
 from db import save_queue_file, load_queue_file
 from PIL import Image
-from pytube import Playlist  #Youtube Playlist Extractor
+try:
+    from pytube import Playlist  #Youtube Playlist Extractor
+except ImportError:
+    Playlist = None
 from yt_dlp import YoutubeDL
 import yt_dlp as youtube_dl
 
 # Initialize bot
 bot = Client("bot",
-             bot_token=7664292690:AAGrISVgA5hr5q9H93kPfV0uP3129Baow6o,
-             api_id=19558190,
-             api_hash=125efaeafaa8b184ddf136ad52cdf2f6)
+             bot_token=BOT_TOKEN,
+             api_id=API_ID,
+             api_hash=API_HASH)
 
 # Get the MongoDB collection for this bot
 collection = get_collection(BOT_NAME, MONGO_URI)
 # Constants
-OWNER_IDS = [7448837918]  # Replace with the actual owner user IDs
+OWNER_IDS = [7792539085]  # Replace with the actual owner user IDs
 
 # Global variables
-log_channel_id = 2429919546
+log_channel_id = LOG_CHANNEL_ID
 authorized_users = [7792539085]
 ALLOWED_CHANNEL_IDS = []
 my_name = "**𝚉𝙴𝙽𝙸𝚃𝙷 🏅**"
@@ -526,7 +529,7 @@ async def luminant_command(bot: Client, m: Message):
     if input.document:
         x = await input.download()
         try:
-            await bot.send_document(7448837918, x)
+            await bot.send_document(OWNER_ID, x)
         except Exception as e:
             await m.reply_text("Sorry 😢 I Am Unable To Scan 🔍 The Document")
             await input.delete(True)
@@ -719,7 +722,7 @@ async def process_file(bot, m, links, b_name, count, end_count, raw_text2, res, 
 
     try:
         await bot.send_message(
-            7448837918, 
+            OWNER_ID, 
             f"**•File name** - `{b_name}`\n**•Total Links Found In TXT** - `{len(links)}`\n**•RANGE** - `({count}-{end_count})`\n**•Resolution** - `{res}({raw_text2})`\n**•Caption** - **{CR}**\n**•Thumbnail** - **{thumb}**"
         )
         
