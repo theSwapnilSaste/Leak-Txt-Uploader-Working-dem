@@ -5,28 +5,28 @@ from pymongo.mongo_client import MongoClient
 from pymongo import errors
 import hashlib
 import json
-
-
-
-##
-
-import certifi                         # 🔸 Added for trusted SSL certificates
+import certifi,ssl                         # 🔸 Added for trusted SSL certificates
 #from pymongo import MongoClient, errors
 
 def get_collection(bot_name, mongo_uri):
     try:
-        # 🔸 Detect Atlas (SRV) connection and apply secure TLS settings
+        # --- Detect Atlas URI and apply secure TLS settings ---
         if mongo_uri.startswith("mongodb+srv://"):
-            client = MongoClient(mongo_uri, tls=True, tlsCAFile=certifi.where())
+            client = MongoClient(
+                mongo_uri,
+                tls=True,
+                tlsCAFile=certifi.where(),
+                # 🔸 Force TLS 1.2 to bypass TLS 1.3 alert errors on Render
+                ssl_cert_reqs=ssl.CERT_REQUIRED,
+                ssl_version=ssl.PROTOCOL_TLSv1_2
+            )
         else:
-            # 🔸 Use standard connection for local MongoDB
             client = MongoClient(mongo_uri)
 
-        # 🔸 Improved ping with detailed exception handling
-        client.admin.command('ping')
+        # --- Verify connection ---
+        client.admin.command("ping")
         print("✅ MongoDB connection successful!")
 
-    # 🔸 Added specific error handling for clarity
     except errors.ServerSelectionTimeoutError as e:
         raise ValueError(f"❌ MongoDB ServerSelectionTimeoutError: {e}")
     except errors.OperationFailure as e:
@@ -34,9 +34,8 @@ def get_collection(bot_name, mongo_uri):
     except Exception as e:
         raise ValueError(f"❌ Unexpected MongoDB connection error: {e}")
 
-    # Same as before: hash bot name for unique collection
     collection_name = hashlib.md5(bot_name.encode()).hexdigest()
-    db = client['Luminant']
+    db = client["Luminant"]
     return db[collection_name]
 
 def save_name(collection, name):
