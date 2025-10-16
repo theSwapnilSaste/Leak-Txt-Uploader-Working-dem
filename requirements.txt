@@ -1,5 +1,4 @@
 async-lru
-certifi
 charset-normalizer
 idna
 mutagen
@@ -20,7 +19,6 @@ aiohttp
 aiofiles
 pytz
 umongo
-pymongo
 speedtest-cli
 beautifulsoup4
 bs4
@@ -28,3 +26,5 @@ Pillow
 pytube
 opencv-python-headless
 uvloop
+pymongo>=4.8.0
+certifi>=2024.2.2
