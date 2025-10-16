@@ -8,35 +8,35 @@ import json
 import certifi,ssl                         # 🔸 Added for trusted SSL certificates
 #from pymongo import MongoClient, errors
 
-def get_collection(bot_name, mongo_uri):
+def get_collection(bot_name: str, mongo_uri: str, db_name: str = "Luminant"):
+    """
+    Connect to MongoDB Atlas using PyMongo ≥4.x, handle TLS correctly,
+    and return a collection uniquely derived from the bot name.
+    """
     try:
-        # --- Detect Atlas URI and apply secure TLS settings ---
-        if mongo_uri.startswith("mongodb+srv://"):
-            client = MongoClient(
-                mongo_uri,
-                tls=True,
-                tlsCAFile=certifi.where(),
-                # 🔸 Force TLS 1.2 to bypass TLS 1.3 alert errors on Render
-                ssl_cert_reqs=ssl.CERT_REQUIRED,
-                ssl_version=ssl.PROTOCOL_TLSv1_2
-            )
-        else:
-            client = MongoClient(mongo_uri)
+        client = MongoClient(
+            mongo_uri,
+            tls=True,                     # TLS instead of ssl
+            tlsCAFile=certifi.where(),    # CA certs for Atlas
+            serverSelectionTimeoutMS=10000  # 10s timeout
+        )
 
-        # --- Verify connection ---
+        # Test connection
         client.admin.command("ping")
-        print("✅ MongoDB connection successful!")
+        print("✅ Pinged your deployment. Connected to MongoDB!")
 
     except errors.ServerSelectionTimeoutError as e:
-        raise ValueError(f"❌ MongoDB ServerSelectionTimeoutError: {e}")
+        raise ValueError(f"❌ MongoDB TLS/connection error: {e}")
     except errors.OperationFailure as e:
-        raise ValueError(f"❌ MongoDB OperationFailure: {e}")
+        raise ValueError(f"❌ MongoDB authentication error: {e}")
     except Exception as e:
         raise ValueError(f"❌ Unexpected MongoDB connection error: {e}")
 
+    # Generate unique collection name
     collection_name = hashlib.md5(bot_name.encode()).hexdigest()
-    db = client["Luminant"]
+    db = client[db_name]
     return db[collection_name]
+
 
 def save_name(collection, name):
     # Save name to local file
