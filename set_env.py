@@ -8,12 +8,12 @@ import os
 
 # Set environment variables
 os.environ['BOT_NAME'] = 'ZENITH_BOT'
-os.environ['BOT_TOKEN'] = '7626013382:AAEvmqpHw4otevswmJbtSw7yK03rGYVmc4M'
-os.environ['API_ID'] = '22746239'
-os.environ['API_HASH'] = 'a98ec8cfd8572a3a7c936cf828fe6215'
-os.environ['MONGO_URI'] = 'mongodb+srv://herukobanna:ankit999@cluster0.xs772me.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-os.environ['OWNER_ID'] = '7792539085'
-os.environ['LOG_CHANNEL_ID'] = '7792539085'
+os.environ['BOT_TOKEN'] = ''
+os.environ['API_ID'] = ''
+os.environ['API_HASH'] = ''
+os.environ['MONGO_URI'] = ''
+os.environ['OWNER_ID'] = '504848353'
+os.environ['LOG_CHANNEL_ID'] = '-1002971022913'
 
 print("✅ Environment variables set successfully!")
 print("🚀 You can now run your bot with: python modules/main.py")
