@@ -7,13 +7,13 @@ Run this before starting the bot to set all required environment variables.
 import os
 
 # Set environment variables
-os.environ['BOT_NAME'] = 'ZENITH_BOT'
-os.environ['BOT_TOKEN'] = ''
-os.environ['API_ID'] = ''
-os.environ['API_HASH'] = ''
-os.environ['MONGO_URI'] = ''
-os.environ['OWNER_ID'] = '504848353'
-os.environ['LOG_CHANNEL_ID'] = '-1002971022913'
+# os.environ['BOT_NAME'] = 'ZENITH_BOT'
+# os.environ['BOT_TOKEN'] = ''
+# os.environ['API_ID'] = ''
+# os.environ['API_HASH'] = ''
+# os.environ['MONGO_URI'] = ''
+# os.environ['OWNER_ID'] = '504848353'
+# os.environ['LOG_CHANNEL_ID'] = '-1002971022913'
 
 print("✅ Environment variables set successfully!")
 print("🚀 You can now run your bot with: python modules/main.py")
